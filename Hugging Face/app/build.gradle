@@ -1,0 +1,189 @@
+import groovy.json.JsonSlurper
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+//[enabled by builder] apply plugin: 'com.google.gms.google-services'
+//[enabled by builder] apply plugin: 'com.google.firebase.crashlytics'
+
+ext {
+    fbAppId = ""
+    fbClientToken = ""
+    onesignalAppId = ""
+    adMobAppId = ""
+    googleServiceInvalid = "false"
+    auth0Domain = ""
+    auth0Scheme = ""
+}
+
+task parseAppConfig {
+    def jsonFile = file('src/main/assets/appConfig.json')
+    def parsedJson = new JsonSlurper().parseText(jsonFile.text)
+    if (parsedJson.services.facebook) {
+        if (parsedJson.services.facebook.appId) {
+            fbAppId = parsedJson.services.facebook.appId
+        }
+        if (parsedJson.services.facebook.clientToken) {
+            fbClientToken = parsedJson.services.facebook.clientToken
+        }
+    }
+    if (parsedJson.services.socialLogin && parsedJson.services.socialLogin.facebookLogin) {
+        if (parsedJson.services.socialLogin.facebookLogin.appId) {
+            fbAppId = parsedJson.services.socialLogin.facebookLogin.appId
+        }
+        if (parsedJson.services.socialLogin.facebookLogin.clientToken) {
+            fbClientToken = parsedJson.services.socialLogin.facebookLogin.clientToken
+        }
+    }
+    if (parsedJson.services.oneSignal && parsedJson.services.oneSignal.applicationId) {
+        onesignalAppId = parsedJson.services.oneSignal.applicationId
+    }
+    if (parsedJson.services.admob && parsedJson.services.admob.admobAndroid && parsedJson.services.admob.admobAndroid.applicationId) {
+        adMobAppId = parsedJson.services.admob.admobAndroid.applicationId
+    }
+    if (parsedJson.services.braze) {
+        if (parsedJson.services.braze.androidApiKey) {
+            gradle.ext.set("braze_api_key", parsedJson.services.braze.androidApiKey)
+        }
+        if (parsedJson.services.braze.androidEndpointKey) {
+            gradle.ext.set("braze_endpoint_key", parsedJson.services.braze.androidEndpointKey)
+        }
+    }
+    if (parsedJson.services.auth0) {
+        if (parsedJson.services.auth0.domain) {
+            auth0Domain = parsedJson.services.auth0.domain
+        }
+        if (parsedJson.services.auth0.scheme) {
+            auth0Scheme = parsedJson.services.auth0.scheme
+        }
+    }
+}
+
+task checkGoogleService {
+    plugins.withId("com.google.gms.google-services") {
+        def googleServiceJsonFile = file('google-services.json')
+        if (project.file(googleServiceJsonFile).exists()) {
+            if (googleServiceJsonFile.text.isEmpty()) {
+                googleServiceInvalid = "true"
+            }
+        } else {
+            googleServiceInvalid = "true"
+        }
+    }
+}
+
+build.dependsOn parseAppConfig
+build.dependsOn checkGoogleService
+
+android {
+    defaultConfig {
+        compileSdk 34
+        minSdkVersion 23
+        targetSdkVersion 34
+        applicationId "co.median.android.awomze"
+        versionCode 3
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
+
+        manifestPlaceholders = [manifestApplicationId: "${applicationId}",
+                                onesignal_app_id: onesignalAppId,
+                                onesignal_google_project_number: "",
+                                admob_app_id: adMobAppId,
+                                facebook_app_id: fbAppId,
+                                facebook_client_token: fbClientToken,
+                                auth0Domain: auth0Domain, auth0Scheme: auth0Scheme ]
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("../../release.keystore")
+            storePassword "password"
+            keyAlias "release"
+            keyPassword "password"
+        }
+        upload {
+            storeFile file("../../upload.keystore")
+            storePassword "password"
+            keyAlias "upload"
+            keyPassword "password"
+        }
+    }
+
+    buildTypes {
+        debug {
+	        applicationIdSuffix ".debug"
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
+            zipAlignEnabled true
+            debuggable project.getProperties().get("enableLogsInRelease").toBoolean()
+            signingConfig signingConfigs.release
+        }
+        upload {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
+            zipAlignEnabled true
+            matchingFallbacks = ['release']
+            debuggable project.getProperties().get("enableLogsInRelease").toBoolean()
+            signingConfig signingConfigs.upload
+        }
+        buildTypes.each {
+            it.buildConfigField 'boolean', 'GOOGLE_SERVICE_INVALID', googleServiceInvalid
+        }
+    }
+
+    flavorDimensions "webview"
+
+    productFlavors {
+        normal {
+            dimension "webview"
+        }
+    }
+    namespace 'co.median.android'
+    testNamespace '${applicationId}.test'
+    buildFeatures {
+        buildConfig true
+    }
+
+    viewBinding {
+        enabled = true
+    }
+}
+
+dependencies {
+    /**** dependencies used by all apps ****/
+    implementation "androidx.core:core-ktx:1.12.0"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.squareup:seismic:1.0.2'
+    implementation 'androidx.webkit:webkit:1.10.0'
+    implementation 'androidx.core:core-splashscreen:1.0.1'
+    implementation "com.github.gonativeio:gonative-icons:$iconsVersion"
+    implementation "com.github.gonativeio:gonative-android-core:$coreVersion"
+    /**** end all apps ****/
+
+    /**** add-on module dependencies ****/
+    implementation 'io.github.afreakyelf:Pdf-Viewer:2.1.1'
+    /**** end modules ****/
+    
+    /**** Google Android and Play Services dependencies ****/
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.browser:browser:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.11.0'
+    implementation "androidx.drawerlayout:drawerlayout:1.2.0"
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    /**** end google ****/
+
+    /**** local dependencies ****/
+    implementation fileTree(dir: 'libs', include: '*.jar')
+    implementation fileTree(dir: 'libs', include: '*.aar')
+    /**** end local ****/
+}
+
+apply from: file("../plugins.gradle"); applyNativeModulesAppBuildGradle(project)

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="shake_to_clear_cache">기기를 흔들면 캐시를 삭제할 수 있음</string>
+    <string-array name="device_shaken_options">
+        <item>캐시 삭제</item>
+        <item>취소</item>
+    </string-array>
+    <string name="cleared_cache">캐시 삭제중</string>
+    <string name="choose_action">작업 선택</string>
+    <string name="action_copy">링크 주소 복사</string>
+    <string name="action_open_browser">외부 브라우저로 링크 열기</string>
+    <string name="file_download_title">다운로드 시작됨</string>
+    <string name="file_download_finished">파일 다운로드 완료</string>
+    <string name="file_download_finished_with_name">다운로드한 파일: %1$s</string>
+    <string name="download_canceled">다운로드 취소됨</string>
+    <string name="file_download_error">다운로드 오류</string>
+    <string name="file_download_finished_gallery">갤러리에 저장된 이미지</string>
+</resources>

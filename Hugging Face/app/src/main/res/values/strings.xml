@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string name="app_name">Hugging Face</string>
+	<string name="action_search">Search</string>
+	<string name="action_refresh">Refresh</string>
+    <string name="action_share">Share</string>
+	<string name="action_close">Close</string>
+	<string name="action_print">Print</string>
+	<string name="action_copy">Copy to clipboard</string>
+	<string name="action_open_browser">Open in browser</string>
+	<string name="shake_to_clear_cache">Shake Device to Delete Cache</string>
+	<string-array name="device_shaken_options">
+		<item>Delete Cache</item>
+		<item>Cancel</item>
+	</string-array>
+	<string name="drawer_open">Open drawer</string>
+	<string name="drawer_close">Close drawer</string>
+	<string name="search_hint">Search</string>
+    <string name="form_error">Problem with submission. Check inputs and try again.</string>
+    <string name="download">Download</string>
+    <string name="download_canceled">Download canceled</string>
+	<string name="download_channel_name">File downloads</string>
+	<string name="download_channel_description">Notifications for file downloads</string>
+	<string name="download_in_progress">Download in progress</string>
+	<string name="download_complete">Download complete</string>
+	<string name="download_disconnected">Download connection failed.</string>
+	<string name="upload_camera_permission_denied">Camera permission denied</string>
+	<string name="file_handler_not_found">Could not find an app to open this file.</string>
+	<string name="cannot_open_file_chooser">Could not open file chooser to handle this file type.</string>
+	<string name="external_storage_explanation">Allow photo access to upload file.</string>
+	<string name="ssl_error_generic">Error establishing SSL Connection</string>
+	<string name="ssl_error_expired">SSL certificate has expired</string>
+	<string name="ssl_error_cert">Invalid SSL certificate</string>
+    <string name="location_services_not_enabled">To continue, turn on device location, which uses Google\'s location service</string>
+    <string name="ok">OK</string>
+    <string name="no_thanks">No Thanks</string>
+	<string name="request_permission_explanation_geolocation">Please allow location permission</string>
+	<string name="request_permission_explanation_storage">Please allow storage permission for file download</string>
+	<string name="starting_download">Starting download</string>
+	<string name="subscriptions_activity_title">Subscriptions</string>
+	<string name="cleared_cache">Cleared cache</string>
+	<string name="app_logo">App Logo</string>
+	<string name="google_service_required">Google Service JSON was not properly set up.</string>
+	<string name="banner_message">Powered by Median</string>
+	<string name="choose_action">Choose an action</string>
+    <string name="app_not_installed">App is not installed</string>
+	<string name="file_download_title">Download started</string>
+	<string name="file_download_finished">File downloaded</string>
+	<string name="file_download_finished_with_name">%1$s downloaded</string>
+	<string name="file_download_error">Download Error</string>
+	<string name="file_download_finished_gallery">Image saved to Gallery</string>
+</resources>

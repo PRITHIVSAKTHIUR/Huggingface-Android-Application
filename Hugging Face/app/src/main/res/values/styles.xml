@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="GoNativeTheme.NoActionBar" parent="GN.DayNight.NoActionBar">
+        <!--Remove action bar shadow. We are managing it ourselves with the tabs.-->
+        <item name="android:windowContentOverlay">@null</item>
+
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="titleTextColor">@color/titleTextColor</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="android:statusBarColor">@color/statusBarBackground</item>
+    </style>
+
+    <style name="DrawerArrowStyle" parent="@style/Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@color/drawerArrow</item>
+    </style>
+
+    <attr name="ic_action_refresh" format="reference"/>
+    <attr name="ic_action_search" format="reference"/>
+    <attr name="ic_action_share" format="reference"/>
+
+    <style name="GN.DayNight" parent="Theme.AppCompat.DayNight">
+        <!-- Can add custom styles -->
+        <item name="ic_action_refresh">@drawable/ic_refresh_black_24dp</item>
+        <item name="ic_action_search">@drawable/ic_search_black_24dp</item>
+        <item name="ic_action_share">@drawable/ic_share_black_24dp</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+    </style>
+
+    <style name="GN.DayNight.NoActionBar" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Can add custom styles -->
+        <item name="ic_action_refresh">@drawable/ic_refresh_black_24dp</item>
+        <item name="ic_action_search">@drawable/ic_search_black_24dp</item>
+        <item name="ic_action_share">@drawable/ic_share_black_24dp</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+    </style>
+
+    <style name="LoginFormContainer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">16dp</item>
+    </style>
+
+    <style name="SplashScreen" parent="Theme.AppCompat.NoActionBar">
+    </style>
+
+    <style name="SplashScreenAnimation">
+        <item name="android:windowExitAnimation">@anim/fast_fade_out</item>
+    </style>
+
+    <style name="SplashTheme" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/splash_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash</item>
+        <item name="postSplashScreenTheme">@style/GoNativeTheme.NoActionBar</item>
+    </style>
+
+    <attr name="inactiveColor" format="color" />
+    <attr name="activeColor" format="color" />
+    <attr name="handleBackground" format="reference" />
+
+    <declare-styleable name="HandleView">
+        <attr name="iconDrawable" format="reference" />
+        <attr name="text" format="string" />
+        <attr name="inactiveColor" />
+        <attr name="activeColor" />
+        <attr name="handleBackground" />
+    </declare-styleable>
+
+    <declare-styleable name="SwipeHistoryNavigationLayout">
+        <attr name="leftHandleDrawable" format="reference" />
+        <attr name="rightHandleDrawable" format="reference" />
+        <attr name="handleBackground" />
+        <attr name="leftHandleLabel" format="string" />
+        <attr name="inactiveColor" />
+        <attr name="activeColor" />
+    </declare-styleable>
+
+    <style name="BottomNavTextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+</resources>

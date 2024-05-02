@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/pdfviewer_share"
+        android:icon="@drawable/ic_share"
+        android:title="@string/action_share" />
+    <item
+        android:id="@+id/pdfviewer_print"
+        android:icon="@drawable/ic_print"
+        android:title="@string/action_print" />
+</menu>

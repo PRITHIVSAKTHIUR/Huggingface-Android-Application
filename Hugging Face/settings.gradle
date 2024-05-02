@@ -1,0 +1,5 @@
+rootProject.name = 'GoNative'
+System.setProperty("user.dir", rootProject.projectDir.toString())
+apply from: file("./plugins.gradle"); applyModulesSettingsGradle(settings)
+
+include ':app'

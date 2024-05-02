@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:versionName="1.0.0">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- Camera permissions -->
+    <!--<uses-permission android:name="android.permission.CAMERA"/>-->
+    <!--<uses-feature android:name="android.hardware.camera" android:required="false" />-->
+
+    <!-- Microphone permissions -->
+    <!--<uses-permission android:name="android.permission.RECORD_AUDIO"/>-->
+    <!--<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>-->
+
+    <!-- Bluetooth permissions -->
+    <!--<uses-permission android:name="android.permission.BLUETOOTH" />-->
+    <!--<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />-->
+
+    <!-- permissions for push messages -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <permission
+        android:name="${applicationId}.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="${applicationId}.permission.C2D_MESSAGE" />
+
+    <!-- permissions to block phone calls -->
+    <!--<uses-permission android:name="android.permission.READ_CONTACTS" />-->
+    <!--<uses-permission android:name="android.permission.READ_CALL_LOG" />-->
+    <!--<uses-permission android:name="android.permission.ANSWER_PHONE_CALLS" />-->
+
+    <queries>
+        <!-- Camera -->
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+        <intent>
+            <action android:name="android.media.action.VIDEO_CAPTURE" />
+        </intent>
+
+        <!-- Gallery -->
+        <intent>
+            <action android:name="android.intent.action.GET_CONTENT" />
+            <data android:mimeType="image/*" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.PICK" />
+            <data android:mimeType="image/*" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.CHOOSER" />
+        </intent>
+
+        <!-- Browser -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="https" />
+        </intent>
+    </queries>
+
+    <application
+        android:name=".GoNativeApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:logo="@drawable/ic_actionbar"
+        android:supportsRtl="true"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:requestLegacyExternalStorage="true">
+
+        <activity
+            android:name=".LaunchActivity"
+            android:exported="true"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/GoNativeTheme.NoActionBar"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="true"
+            android:label="@string/app_name"
+            tools:node="merge">
+        </activity>
+
+        <activity
+            android:name=".AppLinksActivity"
+            android:exported="true"
+            android:launchMode="singleTask">
+            <!--additional intent filters-->
+
+            <!--example: -->
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.VIEW"></action>-->
+            <!--<category android:name="android.intent.category.DEFAULT"></category>-->
+            <!--<category android:name="android.intent.category.BROWSABLE"></category>-->
+            <!--<data android:scheme="http"></data>-->
+            <!--<data android:scheme="https"></data>-->
+            <!--<data android:host="gonative.io"></data>-->
+            <!--<data android:pathPrefix="/"></data>-->
+            <!--</intent-filter>-->
+        </activity>
+
+        <activity android:name=".pdfviewer.PdfViewerActivity"
+            android:theme="@style/GoNativeTheme.NoActionBar"
+            android:exported="true"/>
+
+        <!-- For file sharing without having to use external permissions. -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
+
+        <!-- Facebook -->
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="fb${facebook_app_id}" />
+        <meta-data
+            android:name="com.facebook.sdk.ClientToken"
+            android:value="${facebook_client_token}" />
+
+        <service android:name=".DownloadService"/>
+
+        <receiver
+            android:name="co.median.android.AppUpgradeReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+
+</manifest>
